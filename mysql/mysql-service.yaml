@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: arp-micro
+  labels:
+    kubernetes.io/cluster-service: "true"
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
+  selector:
+    db: mysql
+  type: ClusterIP
+  #type: NodePort
+  #type: LoadBalancer 
+  #type: LoadBalancer 
+  clusterIP: 192.168.3.11

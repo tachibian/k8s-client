@@ -1,0 +1,8 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dev-ingress2
+spec:
+  backend:
+    serviceName: dev-np
+    servicePort: 80

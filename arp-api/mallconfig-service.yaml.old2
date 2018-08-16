@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: mallconfig-service
+spec: 
+  clusterIP: "192.168.3.249"
+  ports: 
+    - 
+      nodePort: 30061
+      port: 27001
+      protocol: TCP
+      targetPort: 7001
+  selector: 
+    app: level0
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+      - 
+        ip: "10.48.36.54"
+

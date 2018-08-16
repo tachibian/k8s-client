@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ReplicationController
+metadata: 
+  name: mysql-controller
+  namespace: default
+  labels:
+    type: db
+    kubernetes.io/cluster-service: "true"
+spec: 
+  replicas: 1
+  selector: 
+    type: db
+  template: 
+    metadata: 
+      labels: 
+        type: db
+        kubernetes.io/cluster-service: "true"
+      name: mysql-pod
+    spec: 
+      containers: 
+        - 
+          args: 
+            - daemon
+          #command: ["/home/mysql/init.sh","exec"]
+          image: "skcho4docker/mysql-5.6.31:ver1.0.0"
+          name: mysql
+          ports: 
+            - 
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts: 
+            - 
+              mountPath: /usr/local/var/mysql5
+              name: mysql-volume
+      volumes:
+        - 
+          hostPath:
+            #path: /usr/local/var/mysql5
+            path: /u01/data/backup/var/mysql5
+          name: mysql-volume
+

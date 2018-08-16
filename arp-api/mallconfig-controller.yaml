@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ReplicationController
+metadata: 
+  labels: 
+    kubernetes.io/cluster-service: "true"
+    type: api
+  name: mallconfig-controller
+  namespace: default
+spec: 
+  replicas: 1
+  selector: 
+    api: mallconfig-api
+  template: 
+    metadata: 
+      labels: 
+        kubernetes.io/cluster-service: "true"
+        type: api
+        api : mallconfig-api
+      name: mallconfig-pod
+    spec: 
+      containers: 
+        - 
+          env: 
+            - 
+              name: PAAS_JAVA_ENV_LOGGING
+              value: '{"recipients":"","subject":"[docker][mallconfig-api]%p-%.-80m","threshold":"info"}'
+            - 
+              name: AUTH_SETTINGS
+              value: '{"mallconfig":"UUDDLRLRBA"}'
+            - 
+              name: PAAS_JAVA_ENV_DB
+              value: '[{"initialSize":"2","maxActive":"5","maxIdle":"2","maxWait":"10000","name":"jdbc/mallconfig","numTestsPerEvictionRun":"5","password":"docker_mallcfg_user","url":"jdbc:mysql:replication://mysql-service.default:3306,mysql-service.default:3306/mallconfig?allowMasterDownConnections=true&roundRobinLoadBalance=true&autoReconnectForPools=true","username":"mallcfg_user"}]'
+          args:
+            - daemon
+          image: "skcho4docker/tomcat8-mallconfig:ver1.0.0"
+          name: mallconfig
+          ports: 
+            - 
+              containerPort: 8080
+              protocol: TCP

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+  namespace: arp-micro
+  labels:
+    kubernetes.io/cluster-service: "true"
+spec:
+  ports:
+  - port: 4369 
+    targetPort: 4369 
+    protocol: TCP
+    name: port-4369
+  - port: 5672 
+    targetPort: 5672 
+    protocol: TCP
+    name: port-5672
+  - port: 25672 
+    targetPort: 25672 
+    protocol: TCP
+    name: port-25672
+  - port: 15672 
+    targetPort: 15672 
+    protocol: TCP
+    name: port-15672
+  selector:
+    mq: rabbitmq 
+  #type: ClusterIP
+  type: NodePort
+  #type: LoadBalancer 
+  #clusterIP: 192.168.3.11

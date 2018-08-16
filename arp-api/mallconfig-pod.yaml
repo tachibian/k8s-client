@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  labels: 
+    app: level0
+    env: dev
+  name: mallconfig-pod
+spec: 
+  containers: 
+    - 
+      command: 
+        - /usr/local/var/oracle/wls12/domains/rmsg/bin/startWebLogic.sh
+      image: "skcho4docker/centos:weblogic12c-rmsg-mallconfig-startup"
+      name: mallconfig-docker
+      ports: 
+        - 
+          containerPort: 7001
+          #hostPort: 17001
+          protocol: TCP 
+      resources: 
+        limits: 
+          cpu: 250m
+          memory: 256Mi
+        requests: 
+          cpu: 250m
+          memory: 128Mi

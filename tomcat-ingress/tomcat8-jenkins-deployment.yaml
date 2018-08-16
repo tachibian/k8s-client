@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata: 
+  labels: 
+    k8s-app: tomcat8-jenkins
+  name: tomcat8-jenkins
+  namespace: default
+spec: 
+  replicas: 1
+  template: 
+    metadata: 
+      labels: 
+        k8s-app: tomcat8-jenkins
+      name: tomcat8-jenkins
+    spec: 
+      containers: 
+        - 
+          args: 
+          - daemon
+          image: "skcho4docker/tomcat8-jenkins:ver1.6.3"
+          name: tomcat8-jenkins
+          ports: 
+            - 
+              containerPort: 8080
+              protocol: TCP

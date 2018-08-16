@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata: 
+  labels: 
+    k8s-app: tomcat8-sample
+  name: tomcat8-sample
+  namespace: default
+spec: 
+  replicas: 1
+  template: 
+    metadata: 
+      labels: 
+        k8s-app: tomcat8-sample
+      name: tomcat8-sample
+    spec: 
+      containers: 
+        - 
+          args: 
+          - daemon
+          image: "skcho4docker/tomcat8-sample:ver1.0.0"
+          name: tomcat8-sample
+          ports: 
+            - 
+              containerPort: 8080
+              protocol: TCP

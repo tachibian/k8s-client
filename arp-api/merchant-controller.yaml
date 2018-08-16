@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ReplicationController
+metadata: 
+  labels: 
+    kubernetes.io/cluster-service: "true"
+    type: api
+  name: merchant-controller
+  namespace: default
+spec: 
+  replicas: 1
+  selector: 
+    api: merchant-api
+  template: 
+    metadata: 
+      labels: 
+        kubernetes.io/cluster-service: "true"
+        type: api
+        api: merchant-api
+      name: merchant-pod
+    spec: 
+      containers: 
+        - 
+          env: 
+            - 
+              name: PAAS_JAVA_ENV_LOGIN
+              value: '{"salt":""}'
+            - 
+              name: PAAS_JAVA_ENV_LOGGING
+              value: '{"recipients":"","subject":"[docker][merchant-api]%p-%.-80m","threshold":"info"}'    
+            - 
+              name: PAAS_JAVA_ENV_API
+              value: '{"mallconfig":"http://mallconfig-service:8080"}'
+            - 
+              name: PAAS_GEP_API_MERCHANT_ENV
+              value: '{"task.executor.future.timeout.msec":"2000","task.executor.shop.size":"2"}'
+            - 
+              name: PAAS_GEP_API_REDIS_ENV
+              value: '{"maxTotal":"50","maxIdle":"20","minIdle":"15","maxWaitMillis":"10000","testWhileIdle":"true","minEvictableIdleTimeMillis":"60000","timeBetweenEvictionRunsMillis":"30000","numTestsPerEvictionRun":"10"}'
+            - 
+              name: PAAS_JAVA_ENV_REDIS
+              value: '[{"name":"redis01","address01":"redis-service:6379","address02":"redis-service:6379","password":"okok3ok"}]'
+            - 
+              name: PAAS_JAVA_DELETE_ENABLED
+              value: "false"
+            - 
+              name: CONFIG_PROFILE
+              value: docker
+            - 
+              name: ENVIRONMENT_ID
+              value: DOCKER
+       
+          args:
+            - daemon
+          image: "skcho4docker/tomcat8-merchant:ver1.0.0"
+          name: merchant
+          ports: 
+            - 
+              containerPort: 8080
+              protocol: TCP
